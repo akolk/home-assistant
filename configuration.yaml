@@ -1,0 +1,187 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secrets.yaml ha_latitude
+  longitude: !secrets.yaml ha_longtitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Amsterdam
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+hue:
+  bridges:
+    - host: !secrets.yaml hue_host
+      allow_unreachable: true
+      allow_hue_groups: false
+
+netatmo:
+  api_key: !secrets.yaml netatmo_api_key
+  secret_key: !secrets.yaml netatmo_secret_key
+  username: !secrets.yaml netatmo_username
+  password: !secrets.yaml netatmo_password
+
+sabnzbd:
+  host: !secrets.yaml sabnzbd_host 
+  api_key: !secrets.yaml api_key
+  name: sab
+  port: 8080
+  sensors:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+    - queue_count
+    - day_size
+    - week_size
+    - month_size
+    - total_size
+
+device_tracker:
+  - platform: tado
+    username: !secrets.yaml tado_username
+    password:!secrets.yaml tado_password
+    home_id: !secrets.yaml tado_home_id
+
+tado:
+  username: !secrets.yaml tado_username
+  password: !secrets.yaml tado_password2
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+  - platform: sonarr
+    api_key: !secrets.yaml sonarr_api_key
+    host: !secrets.yaml sonarr_host
+    port: !secrets.yaml sonarr_port
+    monitored_conditions:
+    - upcoming
+    - queue
+    - wanted
+    - series
+    days: 2
+  - platform: rest
+    resource: !secrets.yaml hue_sensor15
+    value_template: '{{ value_json.state.lightlevel | int / 1 }}'
+    unit_of_measurement: Lux
+    name: 'Gang'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor13
+    value_template: '{{ value_json.state.temperature | float / 100 }}'
+    unit_of_measurement: °C
+    name: 'Gang'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor17
+    value_template: '{{ value_json.state.temperature | float / 100 }}'
+    unit_of_measurement: °C
+    name: 'Overloop'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor19
+    value_template: '{{ value_json.state.lightlevel | int / 1}}'
+    unit_of_measurement: Lux
+    name: 'Overloop'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor21
+    value_template: '{{ value_json.state.temperature | float / 100 }}'
+    unit_of_measurement: °C
+    name: 'Badkamer'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor23
+    value_template: '{{ value_json.state.lightlevel | int / 1}}'
+    unit_of_measurement: Lux
+    name: 'Badkamer'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor27
+    value_template: '{{ value_json.state.temperature | float / 100 }}'
+    unit_of_measurement: °C
+    name: 'Keuken'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor29
+    value_template: '{{ value_json.state.lightlevel | int / 1}}'
+    unit_of_measurement: Lux
+    name: 'Keuken'
+  - platform: rest
+    resource: !secrets.yaml hue_sensor5 
+    value_template: '{{ value_json.state.presence }}'
+    unit_of_measurement: Boolean
+    name: 'Thuis'
+  - platform: dsmr
+    port: /dev/ttyUSB0
+    dsmr_version: 4
+  - platform: netatmo_public
+    areas:
+    - lat_ne: 40.719
+      lon_ne: -73.735
+      lat_sw: 40.552
+      lon_sw: -74.105
+      monitored_conditions:
+      - temperature
+      - pressure
+      - humidity
+      - rain
+      - windstrength
+      - guststrength
+  - platform: radarr
+    api_key: !secrets.yaml radarr_api_key
+    host: !secrets.yaml radarr_host
+    monitored_conditions:
+    - movies
+    - upcoming
+    - status
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

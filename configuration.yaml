@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: !secrets.yaml ha_latitude
-  longitude: !secrets.yaml ha_longtitude
+  latitude: !secret ha_latitude
+  longitude: !secret ha_longtitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
   # metric for Metric, imperial for Imperial
@@ -39,19 +39,19 @@ discovery:
 
 hue:
   bridges:
-    - host: !secrets.yaml hue_host
+    - host: !secret hue_host
       allow_unreachable: true
       allow_hue_groups: false
 
 netatmo:
-  api_key: !secrets.yaml netatmo_api_key
-  secret_key: !secrets.yaml netatmo_secret_key
-  username: !secrets.yaml netatmo_username
-  password: !secrets.yaml netatmo_password
+  api_key: !secret netatmo_api_key
+  secret_key: !secret netatmo_secret_key
+  username: !secret netatmo_username
+  password: !secret netatmo_password
 
 sabnzbd:
-  host: !secrets.yaml sabnzbd_host 
-  api_key: !secrets.yaml api_key
+  host: !secret sabnzbd_host 
+  api_key: !secret api_key
   name: sab
   port: 8080
   sensors:
@@ -69,13 +69,13 @@ sabnzbd:
 
 device_tracker:
   - platform: tado
-    username: !secrets.yaml tado_username
-    password: !secrets.yaml tado_password
-    home_id: !secrets.yaml tado_home_id
+    username: !secret tado_username
+    password: !secret tado_password
+    home_id: !secret tado_home_id
 
 tado:
-  username: !secrets.yaml tado_username
-  password: !secrets.yaml tado_password2
+  username: !secret tado_username
+  password: !secret tado_password2
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -97,9 +97,9 @@ sensor:
   # Weather prediction
   - platform: yr
   - platform: sonarr
-    api_key: !secrets.yaml sonarr_api_key
-    host: !secrets.yaml sonarr_host
-    port: !secrets.yaml sonarr_port
+    api_key: !secret sonarr_api_key
+    host: !secret sonarr_host
+    port: !secret sonarr_port
     monitored_conditions:
     - upcoming
     - queue
@@ -107,47 +107,47 @@ sensor:
     - series
     days: 2
   - platform: rest
-    resource: !secrets.yaml hue_sensor15
+    resource: !secret hue_sensor15
     value_template: '{{ value_json.state.lightlevel | int / 1 }}'
     unit_of_measurement: Lux
     name: 'Gang'
   - platform: rest
-    resource: !secrets.yaml hue_sensor13
+    resource: !secret hue_sensor13
     value_template: '{{ value_json.state.temperature | float / 100 }}'
     unit_of_measurement: °C
     name: 'Gang'
   - platform: rest
-    resource: !secrets.yaml hue_sensor17
+    resource: !secret hue_sensor17
     value_template: '{{ value_json.state.temperature | float / 100 }}'
     unit_of_measurement: °C
     name: 'Overloop'
   - platform: rest
-    resource: !secrets.yaml hue_sensor19
+    resource: !secret hue_sensor19
     value_template: '{{ value_json.state.lightlevel | int / 1}}'
     unit_of_measurement: Lux
     name: 'Overloop'
   - platform: rest
-    resource: !secrets.yaml hue_sensor21
+    resource: !secret hue_sensor21
     value_template: '{{ value_json.state.temperature | float / 100 }}'
     unit_of_measurement: °C
     name: 'Badkamer'
   - platform: rest
-    resource: !secrets.yaml hue_sensor23
+    resource: !secret hue_sensor23
     value_template: '{{ value_json.state.lightlevel | int / 1}}'
     unit_of_measurement: Lux
     name: 'Badkamer'
   - platform: rest
-    resource: !secrets.yaml hue_sensor27
+    resource: !secret hue_sensor27
     value_template: '{{ value_json.state.temperature | float / 100 }}'
     unit_of_measurement: °C
     name: 'Keuken'
   - platform: rest
-    resource: !secrets.yaml hue_sensor29
+    resource: !secret hue_sensor29
     value_template: '{{ value_json.state.lightlevel | int / 1}}'
     unit_of_measurement: Lux
     name: 'Keuken'
   - platform: rest
-    resource: !secrets.yaml hue_sensor5 
+    resource: !secret hue_sensor5 
     value_template: '{{ value_json.state.presence }}'
     unit_of_measurement: Boolean
     name: 'Thuis'
@@ -168,8 +168,8 @@ sensor:
       - windstrength
       - guststrength
   - platform: radarr
-    api_key: !secrets.yaml radarr_api_key
-    host: !secrets.yaml radarr_host
+    api_key: !secret radarr_api_key
+    host: !secret radarr_host
     monitored_conditions:
     - movies
     - upcoming

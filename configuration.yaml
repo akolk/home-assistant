@@ -70,7 +70,7 @@ sabnzbd:
 device_tracker:
   - platform: tado
     username: !secrets.yaml tado_username
-    password:!secrets.yaml tado_password
+    password: !secrets.yaml tado_password
     home_id: !secrets.yaml tado_home_id
 
 tado:

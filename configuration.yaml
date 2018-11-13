@@ -147,12 +147,12 @@ sensor:
     unit_of_measurement: Lux
     name: 'Keuken'
   - platform: rest
-    resource: !secret hue_sensor39
+    resource: !secret hue_sensor32
     value_template: '{{ value_json.state.temperature | float / 100 }}'
     unit_of_measurement: °C
     name: 'Woonkamer'
   - platform: rest
-    resource: !secret hue_sensor41
+    resource: !secret hue_sensor34
     value_template: '{{ value_json.state.lightlevel | int / 1}}'
     unit_of_measurement: Lux
     name: 'Woonkamer'
